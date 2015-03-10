@@ -7,6 +7,7 @@ using System.Web.Http;
 using EK_ServerAPI.Models;
 using System.Data.Odbc;
 using System.Diagnostics;
+using System.Configuration;
 
 namespace EK_ServerAPI.Controllers
 {
@@ -15,10 +16,10 @@ namespace EK_ServerAPI.Controllers
 		public IEnumerable<Experiment> GetAllExperiments()
 		{
 			List<Experiment> experiments = new List<Experiment>();
+			string conn = ConfigurationManager.ConnectionStrings[1].ConnectionString;
 			try
 			{
-				using (OdbcConnection connection = new OdbcConnection("Driver={MySQL ODBC 5.1 Driver};Server=MYSQL5005.myWindowsHosting.com;Database=db_9b91b0_ek;Uid=9b91b0_ek;Password=ek2014@cic;"
-))
+				using (OdbcConnection connection = new OdbcConnection(ConfigurationManager.ConnectionStrings["MySQLHost"].ConnectionString))
 				{
 					connection.Open();
 					using (OdbcCommand command = new OdbcCommand("SELECT * FROM experiments;", connection))
